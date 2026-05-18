@@ -3,6 +3,7 @@ using ShelfMaster.Application.Interfaces;
 using ShelfMaster.Application.Services;
 using ShelfMaster.Infrastructure.Data;
 using ShelfMaster.Infrastructure.Repositories;
+using ShelfMaster.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // For testing via UI
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // 3. Middlewares
@@ -29,5 +33,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseExceptionHandler();
 
 app.Run();
