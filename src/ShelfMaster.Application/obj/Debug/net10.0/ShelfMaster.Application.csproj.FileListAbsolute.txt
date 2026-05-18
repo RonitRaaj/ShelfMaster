@@ -1,0 +1,15 @@
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\bin\Debug\net10.0\ShelfMaster.Application.deps.json
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\bin\Debug\net10.0\ShelfMaster.Application.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\bin\Debug\net10.0\ShelfMaster.Application.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\bin\Debug\net10.0\ShelfMaster.Domain.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\bin\Debug\net10.0\ShelfMaster.Domain.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.csproj.AssemblyReference.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.AssemblyInfoInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.AssemblyInfo.cs
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.csproj.CoreCompileInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMas.31F4EAEB.Up2Date
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\refint\ShelfMaster.Application.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ShelfMaster.Application.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Application\obj\Debug\net10.0\ref\ShelfMaster.Application.dll

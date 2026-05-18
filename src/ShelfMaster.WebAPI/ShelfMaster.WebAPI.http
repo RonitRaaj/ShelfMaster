@@ -1,0 +1,6 @@
+@ShelfMaster.WebAPI_HostAddress = http://localhost:5012
+
+GET {{ShelfMaster.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

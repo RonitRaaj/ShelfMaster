@@ -1,0 +1,17 @@
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Infrastructure.deps.json
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Infrastructure.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Infrastructure.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Application.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Domain.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Application.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\bin\Debug\net10.0\ShelfMaster.Domain.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.AssemblyInfo.cs
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMas.28E69A2A.Up2Date
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\refint\ShelfMaster.Infrastructure.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ShelfMaster.Infrastructure.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Infrastructure\obj\Debug\net10.0\ref\ShelfMaster.Infrastructure.dll

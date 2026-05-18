@@ -1,0 +1,11 @@
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\bin\Debug\net10.0\ShelfMaster.Domain.deps.json
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\bin\Debug\net10.0\ShelfMaster.Domain.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\bin\Debug\net10.0\ShelfMaster.Domain.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.AssemblyInfoInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.AssemblyInfo.cs
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\refint\ShelfMaster.Domain.dll
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ShelfMaster.Domain.pdb
+C:\Users\Global\Desktop\ShelfMaster\src\ShelfMaster.Domain\obj\Debug\net10.0\ref\ShelfMaster.Domain.dll

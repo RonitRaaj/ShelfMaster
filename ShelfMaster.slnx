@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ShelfMaster.Application/ShelfMaster.Application.csproj" />
+    <Project Path="src/ShelfMaster.Domain/ShelfMaster.Domain.csproj" />
+    <Project Path="src/ShelfMaster.Infrastructure/ShelfMaster.Infrastructure.csproj" />
+    <Project Path="src/ShelfMaster.WebAPI/ShelfMaster.WebAPI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ShelfMaster.UnitTests/ShelfMaster.UnitTests.csproj" />
+  </Folder>
+</Solution>
