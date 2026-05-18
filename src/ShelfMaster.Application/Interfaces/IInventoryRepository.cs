@@ -8,4 +8,5 @@ public interface IInventoryRepository
     Task<IEnumerable<InventoryItem>> GetAllInventoryItemsAsync();
     Task UpdateInventoryItemAsync(InventoryItem item);
     Task DeleteInventoryItemAsync(string id);
+    Task<InventoryItem?> GetBySKUAsync(string SKU);
 }

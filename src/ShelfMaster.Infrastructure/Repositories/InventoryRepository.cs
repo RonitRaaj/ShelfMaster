@@ -44,4 +44,8 @@ public class InventoryRepository : IInventoryRepository
             await _context.SaveChangesAsync();
         }
     }
+    public async Task<InventoryItem?> GetBySKUAsync(string SKU)
+    {
+        return await _context.InventoryItems.FirstOrDefaultAsync(i => i.SKU == SKU);
+    }
 }

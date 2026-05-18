@@ -32,3 +32,39 @@ public record CreateInventoryItemDTO
     [Range(0, int.MaxValue, ErrorMessage = "Low stock threshold must be a non-negative integer.")]
     int LowStockThreshold
 );
+
+public record WithdrawInventoryItemDTO
+(
+    [Required(ErrorMessage = "Withdrawal amount is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Withdrawal amount must be a positive integer.")]
+    int Amount
+);
+
+public record RestockInventoryItemDTO
+(
+    [Required(ErrorMessage = "Restock amount is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Restock amount must be a positive integer.")]
+    int Amount
+);
+
+public record UpdateItemNameDTO
+(
+    [Required(ErrorMessage = "Item name is required.")]
+    [StringLength(100, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 100 characters.")]
+    string Name
+);
+
+public record UpdateItemPriceDTO
+(
+    [Required(ErrorMessage = "Price is required.")]
+    [Range(0, double.MaxValue, ErrorMessage = "Price must be a non-negative decimal.")]
+    decimal Price
+);
+
+public record UpdateLowStockThresholdDTO
+(
+    [Required(ErrorMessage = "Low stock threshold is required.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Low stock threshold must be a non-negative integer.")]
+    int LowStockThreshold
+);
+
