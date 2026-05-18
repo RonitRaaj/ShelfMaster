@@ -1,0 +1,17 @@
+## Visual Studio / .NET Core build outputs
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+## User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+## SQLite Databases generated at runtime
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
