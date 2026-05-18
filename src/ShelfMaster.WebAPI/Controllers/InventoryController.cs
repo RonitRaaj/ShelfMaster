@@ -6,7 +6,7 @@ namespace ShelfMaster.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class InventoryController : ControllerBase
+public class InventoryController : BaseApiController
 {
     private readonly InventoryService _service;
 
