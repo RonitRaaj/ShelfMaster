@@ -22,7 +22,7 @@ public class User
       PasswordHash = null!;
     }// For EF Core
 
-    public User(string username, string email, string passwordHash)
+    public User(string username, string email, string passwordHash , UserRole role = UserRole.Staff)
     {
         if (string.IsNullOrWhiteSpace(username))
             throw new ArgumentException("Username cannot be empty.", nameof(username));
@@ -38,7 +38,7 @@ public class User
         Username = username;
         Email = email;
         PasswordHash = passwordHash;
-        Role = UserRole.Staff;
+        Role = role;
     }
 
     public void UpdateUsername(string newUsername)

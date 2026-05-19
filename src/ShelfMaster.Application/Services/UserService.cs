@@ -142,6 +142,22 @@ public class UserService
         await _repository.DeleteUserAsync(userId);
     }
 
+    public async Task<UserAuthwnticationDTO> RegisterAdminUserAsync(UserRegisterDTO dto)
+    {
+        var userWithSameUsername = await _repository.GetUserByUsernameAsync(dto.Username);
+        if (userWithSameUsername != null) throw new ValidationException($"A user with username {dto.Username} already exists.");
+
+        var userWithSameEmail = await _repository.GetUserByEmailAsync(dto.Email);
+        if (userWithSameEmail != null) throw new ValidationException($"A user with email {dto.Email} already exists.");
+
+        string workFactorHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        var user = new User(dto.Username, dto.Email, workFactorHash , UserRole.Admin);
+        await _repository.AddUserAsync(user);
+
+        var token = await GenerateJwtTokenAsync(MapToResponseDto(user));
+        return new UserAuthwnticationDTO(token, MapToResponseDto(user));
+    }
+
     private static UserResponseDTO MapToResponseDto(User user)
     {
         return new UserResponseDTO(
