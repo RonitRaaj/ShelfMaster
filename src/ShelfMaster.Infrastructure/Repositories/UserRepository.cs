@@ -29,7 +29,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmailAsync(string email)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Email.Trim().Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower());
     }
 
     public async Task<IEnumerable<User>> GetAllUsersAsync()

@@ -4,8 +4,6 @@ using ShelfMaster.Application.Services;
 namespace ShelfMaster.WebAPI.Controllers;
 
 
-[ApiController]
-[Route("api/[controller]")]
 public class InventoryController : BaseApiController
 {
     private readonly InventoryService _service;

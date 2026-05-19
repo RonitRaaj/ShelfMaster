@@ -6,8 +6,7 @@ using ShelfMaster.WebAPI.Controllers;
 
 namespace ShelfMaster.WebAPI.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
+
 public class UserController : BaseApiController
 {
     private readonly UserService _service;
@@ -21,6 +20,13 @@ public class UserController : BaseApiController
     public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDTO dto)
     {
         var result = await _service.RegisterUserAsync(dto);
+        return Ok(result);
+    }
+
+    [HttpPost("Admin/register")]
+    public async Task<IActionResult> RegisterAdminUser([FromBody] UserRegisterDTO dto)
+    {
+        var result = await _service.RegisterAdminUserAsync(dto);
         return Ok(result);
     }
 
