@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using ShelfMaster.Application.DTOs;
 using ShelfMaster.Application.Interfaces;
 using ShelfMaster.Domain.Entities;
@@ -7,9 +8,13 @@ namespace ShelfMaster.Application.Services;
 public class InventoryService
 {
     private readonly IInventoryRepository _repository;
+    private readonly IUserRepository _userRepository;
+    private readonly IStockTransactionRepository _stockTransactionRepository;
 
-    public InventoryService(IInventoryRepository repository)
+    public InventoryService(IInventoryRepository repository , IUserRepository userRepository, IStockTransactionRepository stockTransactionRepository)
     {
+        _userRepository = userRepository;
+        _stockTransactionRepository = stockTransactionRepository;
         _repository = repository;
     }
 
@@ -51,48 +56,38 @@ public class InventoryService
     public async Task<IEnumerable<InventoryItemResponseDTO>> GetAllInventoryItemsAsync()
     {
         var items = await _repository.GetAllInventoryItemsAsync();
-        return items.Select(item => new InventoryItemResponseDTO(
-            item.Id,
-            item.Name,
-            item.SKU,
-            item.Quantity,
-            item.Price,
-            item.LowStockThreshold,
-            item.CreatedAt,
-            item.IsLowStock()
-        ));
+        return items.Select(MapToResponseDTO);
     }
     
     public async Task<IEnumerable<InventoryItemResponseDTO>> GetAllAvailableInventoryItemsAsync()
     {
         var items = await _repository.GetAllInventoryItemsAsync();
-        return items.Where(item => item.Quantity > 0).Select(item => new InventoryItemResponseDTO(
-            item.Id,
-            item.Name,
-            item.SKU,
-            item.Quantity,
-            item.Price,
-            item.LowStockThreshold,
-            item.CreatedAt,
-            item.IsLowStock()
-        )).ToList();
+        return items.Where(i => i.Quantity > 0).Select(MapToResponseDTO);
     }
 
-    public async Task<int> WithdrawInventoryItemAsync(string id, WithdrawInventoryItemDTO dto)
+    public async Task<int> WithdrawInventoryItemAsync(string id, WithdrawInventoryItemDTO dto , string userId)
     {
         var item = await _repository.GetInventoryItemByIdAsync(id);
         if (item == null) throw new NotFoundException($"Inventory item with ID {id} not found");
+
         item.WithdrawQuantity(dto.Amount);
         await _repository.UpdateInventoryItemAsync(item);
+        var transaction = new StockTransaction(-dto.Amount, $"Withdrew {dto.Amount} units", userId, item.Id);
+        await _stockTransactionRepository.AddStockTransactionAsync(transaction);
         return item.Quantity;
     }
 
-    public async Task<int> RestockInventoryItemAsync(string id, RestockInventoryItemDTO dto)
+    public async Task<int> RestockInventoryItemAsync(string id, RestockInventoryItemDTO dto , string userId)
     {
         var item = await _repository.GetInventoryItemByIdAsync(id);
         if (item == null) throw new NotFoundException($"Inventory item with ID {id} not found");
+        
         item.RestockQuantity(dto.Amount);
         await _repository.UpdateInventoryItemAsync(item);
+
+        var transaction = new StockTransaction(dto.Amount, $"Restocked {dto.Amount} units", userId, item.Id);
+        await _stockTransactionRepository.AddStockTransactionAsync(transaction);
+        
         return item.Quantity;
     }
 
@@ -128,5 +123,19 @@ public class InventoryService
         var item = await _repository.GetInventoryItemByIdAsync(id);
         if (item == null) throw new NotFoundException($"Inventory item with ID {id} not found");
         await _repository.DeleteInventoryItemAsync(id);
+    }
+
+    private static InventoryItemResponseDTO MapToResponseDTO(InventoryItem item)
+    {
+        return new InventoryItemResponseDTO(
+            item.Id,
+            item.Name,
+            item.SKU,
+            item.Quantity,
+            item.Price,
+            item.LowStockThreshold,
+            item.CreatedAt,
+            item.IsLowStock()
+        );
     }
 }

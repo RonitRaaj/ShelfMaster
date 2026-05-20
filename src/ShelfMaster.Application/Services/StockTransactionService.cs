@@ -2,6 +2,7 @@ using ShelfMaster.Application.Interfaces;
 using ShelfMaster.Application.DTOs;
 using ShelfMaster.Domain.Entities;
 using ShelfMaster.Domain.Exceptions;
+using Microsoft.AspNetCore.Http.Features;
 namespace ShelfMaster.Application.Services;
 public class StockTransactionService
 {
@@ -26,6 +27,18 @@ public class StockTransactionService
 
         var transaction = new StockTransaction(dto.QuantityChange, dto.Note, user.Id, inventoryItem.Id);
         await _stockTransactionRepository.AddStockTransactionAsync(transaction);
+
+        if(transaction.QuantityChanged < 0)
+        {
+            var withdrawQuantity = -transaction.QuantityChanged; // Convert to positive for withdrawal
+            inventoryItem.WithdrawQuantity(withdrawQuantity);
+        }
+        else if (transaction.QuantityChanged > 0)
+        {
+            inventoryItem.RestockQuantity(transaction.QuantityChanged);
+        }
+
+        await _inventoryRepository.UpdateInventoryItemAsync(inventoryItem);
 
         return new StockTransactionResponseDTO(
             transaction.Id,
