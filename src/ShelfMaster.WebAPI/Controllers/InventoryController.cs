@@ -45,14 +45,14 @@ public class InventoryController : BaseApiController
     [HttpPatch("items/{id}/restock")]
     public async Task<IActionResult> RestockInventoryItem(string id, [FromBody] RestockInventoryItemDTO dto)
     {
-        var newQuantity = await _service.RestockInventoryItemAsync(id, dto);
+        var newQuantity = await _service.RestockInventoryItemAsync(id, dto , CurrentUserId);
         return Ok(new{message = "Inventory item restocked successfully", quantity = newQuantity});
     }
 
     [HttpPatch("items/{id}/withdraw")]
     public async Task<IActionResult> WithdrawInventoryItem(string id, [FromBody] WithdrawInventoryItemDTO dto)
     {
-        var newQuantity = await _service.WithdrawInventoryItemAsync(id, dto);
+        var newQuantity = await _service.WithdrawInventoryItemAsync(id, dto , CurrentUserId);
         return Ok(new{message = "Inventory item withdrawn successfully", quantity = newQuantity});
     }
 

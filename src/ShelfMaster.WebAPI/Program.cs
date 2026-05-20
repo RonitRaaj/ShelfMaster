@@ -23,10 +23,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
 builder.Services.AddScoped<StockTransactionService>();
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // For testing via UI
 
@@ -71,6 +68,8 @@ app.UseStaticFiles();
 
 
 app.MapControllers();
+
+app.MapFallbackToFile("index.html");
 
 app.UseExceptionHandler();
 

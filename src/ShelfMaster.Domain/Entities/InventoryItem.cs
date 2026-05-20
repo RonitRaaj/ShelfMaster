@@ -10,6 +10,11 @@ public class InventoryItem
     public int LowStockThreshold { get; private set; }
     public DateTime CreatedAt { get; init; }
 
+    private InventoryItem() 
+    {
+        Id = null!;
+    } // For EF Core
+
     public InventoryItem(string name, string SKU, int quantity, decimal price, int lowStockThreshold)
     {
         if(string.IsNullOrWhiteSpace(name))
