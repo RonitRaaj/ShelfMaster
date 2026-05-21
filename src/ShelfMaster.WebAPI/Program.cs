@@ -22,6 +22,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
 builder.Services.AddScoped<StockTransactionService>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
