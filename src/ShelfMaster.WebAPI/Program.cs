@@ -67,7 +67,7 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 
 // =========================================================================
-// DYNAMIC FRONTEND URL REWRITER MIDDLEWARE
+// DYNAMIC FRONTEND URL REWRITER MIDDLEWARE (FULLY ASYNC)
 // =========================================================================
 app.Use(async (context, next) =>
 {
@@ -80,7 +80,6 @@ app.Use(async (context, next) =>
 
         await next();
 
-        context.Response.Body = originalBodyStream;
         memoryStream.Seek(0, SeekOrigin.Begin);
         using var reader = new StreamReader(memoryStream);
         var scriptContent = await reader.ReadToEndAsync();
@@ -92,8 +91,15 @@ app.Use(async (context, next) =>
         // Automatically replace the hardcoded fallback with the actual live domain!
         var updatedScript = scriptContent.Replace("http://localhost:5012", currentDomain);
 
-        using var writer = new StreamWriter(context.Response.Body);
-        await writer.WriteAsync(updatedScript);
+        // Put the original stream back before writing
+        context.Response.Body = originalBodyStream;
+
+        // Force fully asynchronous disposal and flushing
+        await using (var writer = new StreamWriter(context.Response.Body, leaveOpen: true))
+        {
+            await writer.WriteAsync(updatedScript);
+            await writer.FlushAsync();
+        }
         return;
     }
 
