@@ -24,8 +24,12 @@ COPY --from=build /publish .
 RUN apk add --no-cache icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
-# Bind to Render's expected port
-ENV ASPNETCORE_URLS=http://+:8080
+# 🔴 FIX: Prevent FileSystemWatcher from hitting Linux inotify limits on Render
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+
+# Bind to both standard container port and the frontend's expected port
+ENV ASPNETCORE_URLS=http://+:8080;http://+:5012
 EXPOSE 8080
+EXPOSE 5012
 
 ENTRYPOINT ["dotnet", "ShelfMaster.WebAPI.dll"]
