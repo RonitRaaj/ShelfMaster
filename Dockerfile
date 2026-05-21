@@ -1,5 +1,5 @@
-# 1. Use the lightweight Alpine .NET SDK image to build the app
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+# 1. Use the lightweight Alpine .NET 10.0 SDK image to build the app
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 WORKDIR /app
 
 # Install native compilation essentials required by Alpine
@@ -15,8 +15,8 @@ RUN dotnet publish "src/ShelfMaster.WebAPI/ShelfMaster.WebAPI.csproj" \
     -o /publish \
     --no-restore
 
-# 2. Use the minimal Alpine runtime image for execution
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
+# 2. Use the minimal Alpine .NET 10.0 runtime image for execution
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS runtime
 WORKDIR /app
 COPY --from=build /publish .
 
