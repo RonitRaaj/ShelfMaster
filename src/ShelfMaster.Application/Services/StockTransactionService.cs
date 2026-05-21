@@ -3,18 +3,24 @@ using ShelfMaster.Application.DTOs;
 using ShelfMaster.Domain.Entities;
 using ShelfMaster.Domain.Exceptions;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Logging;
 namespace ShelfMaster.Application.Services;
 public class StockTransactionService
 {
     private readonly IStockTransactionRepository _stockTransactionRepository;
     private readonly IUserRepository _userRepository;
     private readonly IInventoryRepository _inventoryRepository;
+    private readonly IEmailRepository _emailRepository;
+    private readonly ILogger<StockTransactionService> _logger;
 
-    public StockTransactionService(IStockTransactionRepository stockTransactionRepository, IUserRepository userRepository, IInventoryRepository inventoryRepository)
+    public StockTransactionService(IStockTransactionRepository stockTransactionRepository, IUserRepository userRepository, IInventoryRepository inventoryRepository, IEmailRepository emailRepository , ILogger<StockTransactionService> logger)
     {
         _stockTransactionRepository = stockTransactionRepository;
         _userRepository = userRepository;
         _inventoryRepository = inventoryRepository;
+        _emailRepository = emailRepository;
+        _logger = logger;
+
     }
 
     public async Task<StockTransactionResponseDTO> AddStockTransactionAsync(StockTransactionRecordDTO dto , string userId)
@@ -30,8 +36,26 @@ public class StockTransactionService
 
         if(transaction.QuantityChanged < 0)
         {
-            var withdrawQuantity = -transaction.QuantityChanged; // Convert to positive for withdrawal
+            var withdrawQuantity = -transaction.QuantityChanged;
             inventoryItem.WithdrawQuantity(withdrawQuantity);
+            if(inventoryItem.Quantity < inventoryItem.LowStockThreshold)
+        {
+            var email = user.Email;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var subject = $"Low Stock Alert: {inventoryItem.Name}";
+                var body = $"The inventory item '{inventoryItem.Name}' (SKU: {inventoryItem.SKU}) has a low stock level of {inventoryItem.Quantity} units. Please restock soon.";
+
+                try
+                {
+                    await _emailRepository.SendEmailAsync(email, subject, body);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send low stock alert email");
+                }
+            }
+        }
         }
         else if (transaction.QuantityChanged > 0)
         {

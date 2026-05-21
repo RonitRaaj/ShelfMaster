@@ -1,4 +1,5 @@
 using System.ComponentModel.Design;
+using Microsoft.Extensions.Logging;
 using ShelfMaster.Application.DTOs;
 using ShelfMaster.Application.Interfaces;
 using ShelfMaster.Domain.Entities;
@@ -10,12 +11,16 @@ public class InventoryService
     private readonly IInventoryRepository _repository;
     private readonly IUserRepository _userRepository;
     private readonly IStockTransactionRepository _stockTransactionRepository;
+    private readonly IEmailRepository _emailRepository;
+    private readonly ILogger<InventoryService> _logger;
 
-    public InventoryService(IInventoryRepository repository , IUserRepository userRepository, IStockTransactionRepository stockTransactionRepository)
+    public InventoryService(IInventoryRepository repository , IUserRepository userRepository, IStockTransactionRepository stockTransactionRepository, IEmailRepository emailRepository, ILogger<InventoryService> logger)
     {
         _userRepository = userRepository;
         _stockTransactionRepository = stockTransactionRepository;
+        _emailRepository = emailRepository;
         _repository = repository;
+        _logger = logger;
     }
 
     public async Task<InventoryItemResponseDTO> AddInventoryItemAsync(CreateInventoryItemDTO dto)
@@ -74,6 +79,26 @@ public class InventoryService
         await _repository.UpdateInventoryItemAsync(item);
         var transaction = new StockTransaction(-dto.Amount, $"Withdrew {dto.Amount} units", userId, item.Id);
         await _stockTransactionRepository.AddStockTransactionAsync(transaction);
+
+        if(item.Quantity < item.LowStockThreshold)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            var email = user?.Email;
+            if (!string.IsNullOrEmpty(email))
+            {
+                var subject = $"Low Stock Alert: {item.Name}";
+                var body = $"The inventory item '{item.Name}' (SKU: {item.SKU}) has a low stock level of {item.Quantity} units. Please restock soon.";
+
+                try
+                {
+                    await _emailRepository.SendEmailAsync(email, subject, body);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send low stock alert email");
+                }
+            }
+        }
         return item.Quantity;
     }
 
@@ -81,7 +106,7 @@ public class InventoryService
     {
         var item = await _repository.GetInventoryItemByIdAsync(id);
         if (item == null) throw new NotFoundException($"Inventory item with ID {id} not found");
-        
+
         item.RestockQuantity(dto.Amount);
         await _repository.UpdateInventoryItemAsync(item);
 
