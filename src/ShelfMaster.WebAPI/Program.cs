@@ -74,4 +74,26 @@ app.MapFallbackToFile("index.html");
 
 app.UseExceptionHandler();
 
+// =========================================================================
+// AUTOMATIC DATABASE MIGRATIONS ON STARTUP
+// =========================================================================
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Get your Entity Framework DbContext
+        var context = services.GetRequiredService<AppDbContext>(); 
+        
+        // This automatically runs pending migrations and creates tables if they don't exist
+        await context.Database.MigrateAsync();
+        Console.WriteLine("🟢 Production Database successfully migrated and synced!");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "🔴 An error occurred while migrating the database on startup.");
+    }
+}
+
 app.Run();
