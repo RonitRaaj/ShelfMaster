@@ -67,11 +67,10 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 
 // =========================================================================
-// DYNAMIC FRONTEND URL REWRITER MIDDLEWARE (FULLY ASYNC)
+// DYNAMIC FRONTEND URL REWRITER MIDDLEWARE (WITH FIXED CONTENT-LENGTH)
 // =========================================================================
 app.Use(async (context, next) =>
 {
-    // If the browser is requesting our compiled frontend javascript files
     if (context.Request.Path.Value != null && context.Request.Path.Value.EndsWith(".js"))
     {
         var originalBodyStream = context.Response.Body;
@@ -84,22 +83,23 @@ app.Use(async (context, next) =>
         using var reader = new StreamReader(memoryStream);
         var scriptContent = await reader.ReadToEndAsync();
 
-        // Detect if we are running live on Render or locally
         var hostUrl = context.Request.Headers.Host.ToString();
         var currentDomain = hostUrl.Contains("localhost") ? "http://localhost:5012" : $"https://{hostUrl}";
 
-        // Automatically replace the hardcoded fallback with the actual live domain!
-        var updatedScript = scriptContent.Replace("http://localhost:5012", currentDomain);
+        // Perform the replacement
+        var updatedScript = scriptContent
+            .Replace("http://localhost:5012", currentDomain)
+            .Replace("https://localhost:5012", currentDomain);
 
-        // Put the original stream back before writing
+        // Convert the modified script back into bytes to count the accurate length
+        var updatedBytes = System.Text.Encoding.UTF8.GetBytes(updatedScript);
+
+        // 🔴 CRITICAL FIX: Update Content-Length header to match the expanded string size
+        context.Response.Headers.ContentLength = updatedBytes.Length;
         context.Response.Body = originalBodyStream;
 
-        // Force fully asynchronous disposal and flushing
-        await using (var writer = new StreamWriter(context.Response.Body, leaveOpen: true))
-        {
-            await writer.WriteAsync(updatedScript);
-            await writer.FlushAsync();
-        }
+        // Write the whole chunk out safely
+        await context.Response.Body.WriteAsync(updatedBytes, 0, updatedBytes.Length);
         return;
     }
 
